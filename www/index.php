@@ -3,11 +3,12 @@
 =====================================================
  php_folder_viewer - by TCSE
 -----------------------------------------------------
- Версия: v1.0 от 2004-10-29
+ Версия: v1.2 от 2016-11-13
 -----------------------------------------------------
  Copyright (c) 2004 TCSE http://tcse-cms.com/
 =====================================================
  Автор скрипта: Николай Чуяков nikolay@chuyakov.ru
+ Доработка: Виталий Чуяков mail@tcse-cms.com
 =====================================================
  Файл: index.php
 -----------------------------------------------------
@@ -15,56 +16,53 @@
 =====================================================
 */
 
-$col="<p align=\"center\"><font class=\"col\">Chew_and_Talik &copy; 2004.</font></p>";
+$col="<br><br><p align=\"center\"><font class=\"well\">tcse-cms.com &copy; 2016.</font></p>";
 $self=basename($PHP_SELF);
 $dn=opendir('.');
 $dir=dirname("$SERVER_NAME$PHP_SELF");
 print"
+
 <html>
-<head>
-<title>Обзор каталога $dir </title>
-<style>
-.col {
-        text-decoration: none;
-        color: #000000;
-        font-size: 12pt;
-        font-weight:bold;
-        font-family: sans-serif;
-}
+  <head>
+  <title>Обзор каталога $dir </title>
 
-A {
-        text-decoration: none;
-        color: #000080;
-        font-size: 15pt;
-        font-style: underline;
-        font-family: sans-serif;
-}
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 
-A:Hover {
-        color: #f00000;
+  <link href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" rel=\"stylesheet\" >
+  <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\">
+  <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>
 
-}
-</style>
-</head>
+
+  </head>
+
 <body>
+  <div class=\"container\">
+    <div class=\"row\">
+      <div class=\"col-xs-12 col-sm-6 col-md-4 col-lg-4\">
+        <div class=\"list-group\">
+          <p><br></p>
+          ";
+          while($file=readdir($dn)):
+             switch($file):
+               case(".."):
+                 print"<a href=\"$file\" class=\"list-group-item list-group-item-info\" title=\"На уровень выше.\"><font face=\"tahoma\" color=\"#808080\" size=\"+2\"><b>$SERVER_NAME <i class=\"fa fa-level-up fa-2x\"></i> </b></font></a><Font color=\"#0000080\" size=\"+2\">$dir</font>\n";break;
+               case("."):
+                 print""; break;       //  не выдавать ссылки наверх.
+               case("$self"):
+                 print"" ;break;       // не показывать этот файл в списке
+               case("index.html"):
+                 print"" ;break;       // не показывать index.html
+               default:
+                print"<a href=\"$file\" class=\"list-group-item\" title=\"Download.\">$file</a>\n";break;
+             endswitch;
+          endwhile;
+          print"
+          $col <br>
+        </div>
+      </div>
+    </div>
+  </div>
 
-";
-while($file=readdir($dn)):
-   switch($file):
-     case(".."):
-       print"<a href=\"$file\"><font face=\"tahoma\" color=\"#808080\" size=\"+2\"><b>$SERVER_NAME / </b></font></a><br><Font color=\"#0000080\" size=\"+2\">$dir</font><br>\n";break;
-     case("."):
-       print""; break;       //  не выдавать ссылки наверх.
-     case("$self"):
-       print"" ;break;       // не показывать этот файл в списке
-     case("index.html"):
-       print"" ;break;       // не показывать index.html
-     default:
-      print"<a href=\"$file\" title=\"Download.\">$file</a><br>\n";break;
-   endswitch;
-endwhile;
-print"
-$col <br>
 </body>\n</html>";
 // print"http://$SERVER_NAME$PHP_SELF";
 ?>
